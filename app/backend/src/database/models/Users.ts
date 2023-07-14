@@ -42,7 +42,6 @@ UsersTable.init({
 }, {
   sequelize: db,
   tableName: 'users',
-  modelName: 'users',
   underscored: true,
   timestamps: false,
 });

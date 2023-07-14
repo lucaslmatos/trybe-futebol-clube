@@ -21,13 +21,12 @@ TeamsTable.init({
     primaryKey: true,
   },
   teamName: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
 }, {
   sequelize: db,
   tableName: 'teams',
-  modelName: 'teams',
   underscored: true,
   timestamps: false,
 });

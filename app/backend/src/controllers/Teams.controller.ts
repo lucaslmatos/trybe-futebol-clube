@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import TeamService from '../services/teams.service';
 
-export default class BookController {
+export default class TeamController {
   constructor(
     private teamService = new TeamService(),
   ) { }
