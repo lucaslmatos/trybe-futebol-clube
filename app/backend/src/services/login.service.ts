@@ -6,8 +6,12 @@ export default class LoginService {
   private userModel = UsersTable;
   public async login(user:UserLog): Promise<GenericReturn> {
     const thisUser = await this.userModel.findOne({ where: { email: user.email } });
-    const { id, email, password }:any = thisUser;
-    const newToken = jwt.signJwt({ id, email, password });
-    return { responseMessage: newToken, statusCode: 200 };
+    if (thisUser) {
+      const { id, email, password } = thisUser;
+      const payload = { id, email, password };
+      const newToken = jwt.signJwt(payload);
+      return { responseMessage: newToken, statusCode: 200 };
+    }
+    return { responseMessage: 'Invalid email or password', statusCode: 401 };
   }
 }
