@@ -1,6 +1,5 @@
 import TeamsTable from '../database/models/Teams';
 import MatchesTable from '../database/models/Matches';
-import { query } from 'express';
 
 export default class MatchesService {
   private teamModel = TeamsTable;
