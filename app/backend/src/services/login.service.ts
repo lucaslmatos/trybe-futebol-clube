@@ -10,7 +10,7 @@ export default class LoginService {
       const { id, email, password } = thisUser;
       const payload = { id, email, password };
       const newToken = signJwt(payload);
-      return { responseMessage: newToken, statusCode: 200 };
+      return { responseMessage: { token: newToken }, statusCode: 200 };
     }
     return { responseMessage: 'Invalid email or password', statusCode: 401 };
   }
