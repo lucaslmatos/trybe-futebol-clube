@@ -1,13 +1,11 @@
-// import { Router } from 'express';
-// import TeamsController from '../controllers/Teams.controller'
+import { Router } from 'express';
+import TeamsController from '../controllers/Teams.controller';
 
-// const authRouter = Router();
+const authRouter = Router();
 
-// const teamController = new TeamsController();
+const teamController = new TeamsController();
 
-// authRouter.post(
-//   '/',
-//   (req, res) => teamsController.getAllTeams(req, res),
-// );
+authRouter.get('/', (req, res) => teamController.getAllTeams(req, res));
+authRouter.get('/:id', (req, res) => teamController.getTeamById(req, res));
 
-// export default authRouter;
+export default authRouter;
