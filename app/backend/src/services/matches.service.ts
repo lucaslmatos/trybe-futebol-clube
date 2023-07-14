@@ -29,4 +29,10 @@ export default class MatchesService {
       .filter((match) => +match.inProgress === +test);
     return matchesListFiltered;
   }
+
+  public async setMatchStatus(id:string) {
+    const thisMatch = await this.matchModel.findByPk(+id);
+    await thisMatch?.update({ inProgress: false }, { where: { inProgress: true } });
+    return 'Finished';
+  }
 }

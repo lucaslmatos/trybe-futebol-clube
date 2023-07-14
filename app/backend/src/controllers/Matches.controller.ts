@@ -19,4 +19,12 @@ export default class MatchesController {
     const serviceResponse = await this.matchService.getAllMatches();
     return res.status(200).json(serviceResponse);
   }
+
+  public async setMatchStatus(req: Request, res: Response) {
+    const { id } = req.params;
+    if (id) {
+      const serviceResponse = await this.matchService.setMatchStatus(id);
+      return res.status(200).json({ message: serviceResponse });
+    }
+  }
 }
