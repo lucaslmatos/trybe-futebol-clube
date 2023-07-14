@@ -12,7 +12,7 @@ const signJwt = (payload: Payload): JwtPayload | string => sign(payload, secret)
 
 const verifyJwt = (token: string): JwtPayload | string => verify(token, secret);
 
-export default {
+export {
   signJwt,
   verifyJwt,
 };

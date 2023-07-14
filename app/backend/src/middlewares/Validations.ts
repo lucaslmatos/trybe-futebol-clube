@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { compareSync } from 'bcryptjs';
 import UsersTable from '../database/models/Users';
+import { verifyJwt } from '../services/jwt';
 
 class Validations {
   static validateLoginFields(req: Request, res: Response, next: NextFunction): Response | void {
@@ -21,6 +22,19 @@ class Validations {
     const thisUser = await UsersTable.findOne({ where: { email } });
     if (!(thisUser && compareSync(password, thisUser.dataValues.password))) {
       return res.status(401).json({ message: 'Invalid email or password' });
+    }
+    next();
+  }
+
+  static validateToken(req: Request, res: Response, next: NextFunction): Response | void {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res.status(401).json({ message: 'Token not found' });
+    }
+    try {
+      verifyJwt(authorization.split(' ')[1]);
+    } catch {
+      return res.status(401).json({ message: 'Token must be a valid token' });
     }
     next();
   }

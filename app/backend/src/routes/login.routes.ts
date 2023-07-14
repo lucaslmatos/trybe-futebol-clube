@@ -13,4 +13,10 @@ authRouter.post(
   (req, res) => loginController.login(req, res),
 );
 
+authRouter.get(
+  '/role',
+  Validations.validateToken,
+  (req, res) => loginController.getRole(req, res),
+);
+
 export default authRouter;

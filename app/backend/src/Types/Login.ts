@@ -5,6 +5,13 @@ export type GenericReturn = {
   statusCode:number,
 };
 
+export type GetRoleReturn = {
+  responseMessage: {
+    role: string,
+  },
+  statusCode:number,
+};
+
 export type UserLog = {
   email:string,
   password:string,
