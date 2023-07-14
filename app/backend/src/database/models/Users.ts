@@ -10,7 +10,7 @@ import db from '.';
 class UsersTable extends Model<InferAttributes<UsersTable>,
 InferCreationAttributes<UsersTable>> {
   declare id: CreationOptional<number>;
-  declare teamname: string;
+  declare username: string;
   declare role: string;
   declare email: string;
   declare password: string;
@@ -23,20 +23,20 @@ UsersTable.init({
     autoIncrement: true,
     primaryKey: true,
   },
-  teamname: {
-    type: DataTypes.INTEGER,
+  username: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   role: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   email: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   password: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
 }, {

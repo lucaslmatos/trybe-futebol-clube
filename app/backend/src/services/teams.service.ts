@@ -1,5 +1,5 @@
 import TeamsTable from '../database/models/Teams';
-import { teamsAllResponse } from './types';
+import { teamsAllResponse } from '../Types/Teams';
 
 export default class TeamService {
   private teamModel = TeamsTable;
