@@ -37,4 +37,11 @@ export default class MatchesController {
       return res.status(200).json({ message: serviceResponse });
     }
   }
+
+  public async createNewMatch(req: Request, res: Response) {
+    const { homeTeamId, homeTeamGoals, awayTeamId, awayTeamGoals } = req.body;
+    const serviceResponse = await this.matchService
+      .createNewMatch(+homeTeamId, +homeTeamGoals, +awayTeamId, +awayTeamGoals);
+    return res.status(201).json(serviceResponse);
+  }
 }

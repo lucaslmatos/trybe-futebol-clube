@@ -23,4 +23,10 @@ authRouter.get(
   (req, res) => matchController.getAllMatches(req, res),
 );
 
+authRouter.post(
+  '/',
+  Validations.validateToken,
+  (req, res) => matchController.createNewMatch(req, res),
+);
+
 export default authRouter;
