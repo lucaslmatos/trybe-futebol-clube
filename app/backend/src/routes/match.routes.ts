@@ -12,6 +12,12 @@ authRouter.patch(
   (req, res) => matchController.setMatchStatus(req, res),
 );
 
+authRouter.patch(
+  '/:id',
+  Validations.validateToken,
+  (req, res) => matchController.setMatchGoals(req, res),
+);
+
 authRouter.get(
   '/',
   (req, res) => matchController.getAllMatches(req, res),

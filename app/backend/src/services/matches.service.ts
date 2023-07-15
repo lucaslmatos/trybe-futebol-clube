@@ -35,4 +35,10 @@ export default class MatchesService {
     await thisMatch?.update({ inProgress: false }, { where: { inProgress: true } });
     return 'Finished';
   }
+
+  public async setMatchGoals(id:string, homeTeamGoals:number, awayTeamGoals:number) {
+    const thisMatch = await this.matchModel.findByPk(+id);
+    await thisMatch?.update({ homeTeamGoals, awayTeamGoals });
+    return 'Finished updating Match Goals';
+  }
 }
