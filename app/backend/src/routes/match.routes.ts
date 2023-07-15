@@ -26,6 +26,7 @@ authRouter.get(
 authRouter.post(
   '/',
   Validations.validateToken,
+  Validations.validateNewMatch,
   (req, res) => matchController.createNewMatch(req, res),
 );
 

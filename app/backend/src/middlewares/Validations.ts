@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { compareSync } from 'bcryptjs';
 import UsersTable from '../database/models/Users';
+import TeamsTable from '../database/models/Teams';
 import { verifyJwt } from '../services/jwt';
 
 class Validations {
@@ -35,6 +36,29 @@ class Validations {
       verifyJwt(authorization.split(' ')[1]);
     } catch {
       return res.status(401).json({ message: 'Token must be a valid token' });
+    }
+    next();
+  }
+
+  static async validateNewMatch(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<Response | void> {
+    const { homeTeamId, awayTeamId } = req.body;
+    if (homeTeamId === awayTeamId) {
+      return res.status(422).json({
+        message: 'It is not possible to create a match with two equal teams',
+      });
+    }
+
+    const checkHomeTeam = await TeamsTable.findByPk(homeTeamId);
+    const checkAwayTeam = await TeamsTable.findByPk(homeTeamId);
+
+    if (checkHomeTeam === null || checkAwayTeam === null) {
+      return res.status(404).json({
+        message: 'There is no team with such id!',
+      });
     }
     next();
   }
