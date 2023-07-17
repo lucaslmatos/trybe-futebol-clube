@@ -53,7 +53,7 @@ class Validations {
     }
 
     const checkHomeTeam = await TeamsTable.findByPk(homeTeamId);
-    const checkAwayTeam = await TeamsTable.findByPk(homeTeamId);
+    const checkAwayTeam = await TeamsTable.findByPk(awayTeamId);
 
     if (checkHomeTeam === null || checkAwayTeam === null) {
       return res.status(404).json({
