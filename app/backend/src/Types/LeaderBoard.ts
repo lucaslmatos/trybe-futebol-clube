@@ -7,4 +7,6 @@ export type getReturn = {
   totalLosses: number,
   goalsFavor: number,
   goalsOwn: number,
+  goalsBalance:number,
+  efficiency: string,
 };

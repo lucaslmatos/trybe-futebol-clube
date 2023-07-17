@@ -41,21 +41,19 @@ export default class LeaderBoardService {
   static async getReturn(team:TeamsTable, matches:MatchesTable[], place:string):Promise<getReturn> {
     const totalPoints = await LeaderBoardService.getTotalPoints(matches, place);
     const totalGames = await LeaderBoardService.getTotalGames(matches);
-    const totalVictories = await LeaderBoardService.getTotalVicories(matches, place);
-    const totalDraws = await LeaderBoardService.getTotalDraws(matches);
-    const totalLosses = await LeaderBoardService.getTotalLosses(matches, place);
     const goalsFavor = await LeaderBoardService.getGoalsFavor(matches, place);
     const goalsOwn = await LeaderBoardService.getGoalsOwn(matches, place);
 
-    return {
-      name: team.dataValues.teamName,
+    return { name: team.dataValues.teamName,
       totalPoints,
       totalGames,
-      totalVictories,
-      totalDraws,
-      totalLosses,
+      totalVictories: await LeaderBoardService.getTotalVicories(matches, place),
+      totalDraws: await LeaderBoardService.getTotalDraws(matches),
+      totalLosses: await LeaderBoardService.getTotalLosses(matches, place),
       goalsFavor,
       goalsOwn,
+      goalsBalance: goalsFavor - goalsOwn,
+      efficiency: ((totalPoints / (totalGames * 3)) * 100).toFixed(2),
     };
   }
 
