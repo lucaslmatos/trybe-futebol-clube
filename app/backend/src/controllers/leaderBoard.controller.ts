@@ -8,20 +8,7 @@ export default class LeaderBoardController {
 
   public async leaderBoardHome(_req: Request, res: Response) {
     const serviceResponse = await this.leaderBoardService.leaderBoardHome();
-    return res.status(200).json(serviceResponse.sort((a, b) => {
-      if (+b.totalPoints !== +a.totalPoints) {
-        return +b.totalPoints - +a.totalPoints;
-      }
-      const efficiencyA = parseFloat(a.efficiency);
-      const efficiencyB = parseFloat(b.efficiency);
-      if (efficiencyB !== efficiencyA) {
-        return efficiencyB - efficiencyA;
-      }
-      if (b.goalsFavor !== a.goalsFavor) {
-        return b.goalsFavor - a.goalsFavor;
-      }
-      return b.goalsBalance - a.goalsBalance;
-    }));
+    return res.status(200).json(serviceResponse);
   }
 
   public async leaderBoardAway(_req: Request, res: Response) {

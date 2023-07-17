@@ -19,7 +19,8 @@ export default class LeaderBoardService {
       return result;
     });
     const results = await Promise.all(resultPromises);
-    return results;
+    const resultsSorted = await LeaderBoardService.setSort(results);
+    return resultsSorted;
   }
 
   public async leaderBoardAway(): Promise<getReturn[]> {
@@ -35,7 +36,8 @@ export default class LeaderBoardService {
       return result;
     });
     const results = await Promise.all(resultPromises);
-    return results;
+    const resultsSorted = await LeaderBoardService.setSort(results);
+    return resultsSorted;
   }
 
   static async getReturn(team:TeamsTable, matches:MatchesTable[], place:string):Promise<getReturn> {
@@ -121,5 +123,21 @@ export default class LeaderBoardService {
       } else { Goals += match.homeTeamGoals; }
     });
     return Goals;
+  }
+
+  static async setSort(matches:getReturn[]):Promise<getReturn[]> {
+    const sorted = matches.sort((a, b) => {
+      if (+b.totalPoints !== +a.totalPoints) {
+        return +b.totalPoints - +a.totalPoints;
+      }
+      if (b.goalsBalance !== a.goalsBalance) {
+        return b.goalsBalance - a.goalsBalance;
+      }
+      if (b.goalsFavor !== a.goalsFavor) {
+        return b.goalsFavor - a.goalsFavor;
+      }
+      return parseFloat(b.efficiency) - parseFloat(a.efficiency);
+    });
+    return sorted;
   }
 }
