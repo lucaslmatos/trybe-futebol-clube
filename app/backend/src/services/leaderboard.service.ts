@@ -22,6 +22,22 @@ export default class LeaderBoardService {
     return results;
   }
 
+  public async leaderBoardAway(): Promise<getReturn[]> {
+    const allTeams = await this.teamModel.findAll();
+    const allMatches = await this.matchModel.findAll();
+
+    const resultPromises = allTeams.map(async (t) => {
+      const thisTeamMatches = allMatches.filter((match) => t.dataValues.id
+      === match.dataValues.awayTeamId && match.dataValues.inProgress === false);
+
+      const result = await LeaderBoardService.getReturn(t, thisTeamMatches, 'away');
+
+      return result;
+    });
+    const results = await Promise.all(resultPromises);
+    return results;
+  }
+
   static async getReturn(team:TeamsTable, matches:MatchesTable[], place:string):Promise<getReturn> {
     const totalPoints = await LeaderBoardService.getTotalPoints(matches, place);
     const totalGames = await LeaderBoardService.getTotalGames(matches);
@@ -109,6 +125,3 @@ export default class LeaderBoardService {
     return Goals;
   }
 }
-
-// const thisTeamMatchesAway = allMatches.filter((match) => team.dataValues.id
-// === match.dataValues.awayTeamId && match.dataValues.inProgress === false);

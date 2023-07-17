@@ -6,8 +6,13 @@ export default class LeaderBoardController {
     private leaderBoardService = new LeaderBoardService(),
   ) { }
 
-  public async leaderBoardHomes(_req: Request, res: Response) {
+  public async leaderBoardHome(_req: Request, res: Response) {
     const serviceResponse = await this.leaderBoardService.leaderBoardHome();
+    return res.status(200).json(serviceResponse);
+  }
+
+  public async leaderBoardAway(_req: Request, res: Response) {
+    const serviceResponse = await this.leaderBoardService.leaderBoardAway();
     return res.status(200).json(serviceResponse);
   }
 }

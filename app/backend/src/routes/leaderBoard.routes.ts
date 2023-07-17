@@ -7,7 +7,12 @@ const leaderBoardController = new LeaderBoardsController();
 
 authRouter.get(
   '/home',
-  (req, res) => leaderBoardController.leaderBoardHomes(req, res),
+  (req, res) => leaderBoardController.leaderBoardHome(req, res),
+);
+
+authRouter.get(
+  '/away',
+  (req, res) => leaderBoardController.leaderBoardAway(req, res),
 );
 
 export default authRouter;
