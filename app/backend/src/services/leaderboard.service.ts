@@ -6,7 +6,27 @@ export default class LeaderBoardService {
   private teamModel = TeamsTable;
   private matchModel = MatchesTable;
 
-  public async leaderBoardHome(): Promise<getReturn[]> {
+  public async leaderBoard(): Promise<getReturn[]> {
+    const homeBoard = await this.leaderBoardHome('unsorted');
+    const awayBoard = await this.leaderBoardAway('unsorted');
+    const leaderBoard = homeBoard.map((match, i) => ({
+      name: match.name,
+      totalPoints: (match.totalPoints + awayBoard[i].totalPoints),
+      totalGames: (match.totalGames + awayBoard[i].totalGames),
+      totalVictories: (match.totalVictories + awayBoard[i].totalVictories),
+      totalDraws: (match.totalDraws + awayBoard[i].totalDraws),
+      totalLosses: (match.totalLosses + awayBoard[i].totalLosses),
+      goalsFavor: (match.goalsFavor + awayBoard[i].goalsFavor),
+      goalsOwn: (match.goalsOwn + awayBoard[i].goalsOwn),
+      goalsBalance: (match.goalsBalance + awayBoard[i].goalsBalance),
+      efficiency: (((match.totalPoints + awayBoard[i].totalPoints)
+      / ((match.totalGames + awayBoard[i].totalGames) * 3)) * 100).toFixed(2),
+    }));
+    const leaderBoardSorted = await LeaderBoardService.setSort(leaderBoard);
+    return leaderBoardSorted;
+  }
+
+  public async leaderBoardHome(sort:string): Promise<getReturn[]> {
     const allTeams = await this.teamModel.findAll();
     const allMatches = await this.matchModel.findAll();
 
@@ -19,11 +39,12 @@ export default class LeaderBoardService {
       return result;
     });
     const results = await Promise.all(resultPromises);
+    if (sort === 'unsorted') return results;
     const resultsSorted = await LeaderBoardService.setSort(results);
     return resultsSorted;
   }
 
-  public async leaderBoardAway(): Promise<getReturn[]> {
+  public async leaderBoardAway(sort:string): Promise<getReturn[]> {
     const allTeams = await this.teamModel.findAll();
     const allMatches = await this.matchModel.findAll();
 
@@ -36,6 +57,7 @@ export default class LeaderBoardService {
       return result;
     });
     const results = await Promise.all(resultPromises);
+    if (sort === 'unsorted') return results;
     const resultsSorted = await LeaderBoardService.setSort(results);
     return resultsSorted;
   }
